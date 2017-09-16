@@ -70,7 +70,7 @@ $(document).ready(function(){
     //still=false;
     //else
     //imageUrl = response.data[i].images.fixed_height_small_still.url;
-  
+
 
   
  });
