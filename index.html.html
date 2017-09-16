@@ -1,0 +1,113 @@
+<html>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<div id=gifButtonArea>
+
+</div>
+
+
+<h1>
+Type in GIF 
+
+<input id="text" type="text">
+</h1>
+<br>
+
+<!--Don't put stuff inside form-->
+
+<button id="submit" value="Submit">Gif Button</button>
+
+    
+<div id="gifArea">
+<img>
+
+<p>
+	
+</p>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    // Example queryURL for Giphy API
+
+$(document).ready(function(){
+
+    gifButtonsArray=["cat", "dog", "bird"];
+
+
+  $("#submit").on("click", function() {  
+
+    var name = $("#text").val().trim();
+    gifButtonsArray.push(name);
+
+    console.log(gifButtonsArray);
+    //should get 5 if value="5", trim cuts off the spaces
+
+  });
+
+    for (var x = 0; gifButtonsArray.length > x; x++) {
+    var gifButton = $("<button>");
+    gifButton.addClass("click-button");
+    gifButton.attr("id", gifButtonsArray[x]);
+    gifButton.attr("value",gifButtonsArray[x]);
+    gifButton.attr("id", gifButtonsArray[x]);
+    gifButton.text(gifButtonsArray[x]);
+    $("#gifButtonArea").append(gifButton);
+  }
+
+
+
+
+  //$(document).ready(function(){
+
+
+
+  $(".click-button").on("click", function(){
+
+
+
+    var text = $(this).text();
+   
+    console.log(text);
+ 
+
+    //var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag="+text;
+    var queryURL= "http://api.giphy.com/v1/gifs/search?q="+text+"&api_key=dc6zaTOxFJmzC&limit=10&rating=g"
+
+    $.ajax({
+      url: queryURL,
+      method: 'GET'
+    }).done(function(response) {
+      console.log(response);
+
+    
+
+      for (var i = 0; response.data.length > i; i++) {
+        
+      
+    var imageUrl = response.data[i].images.fixed_height_small_still.url;
+
+    //console.log(response.data[0].rating);
+
+     var gifImage = $("<img>");
+
+        // Setting the catImage src attribute to imageUrl
+        gifImage.attr("src", imageUrl);
+        //gifImage.attr("alt", "cat image");
+        $("#gifArea").append(gifImage);
+        //$("#gifArea").html(response.data[i].rating);
+
+        //.html replaces, append or prepend adds. So use .html for this project when adding gifs
+
+ 
+
+    //console.log(imageUrl);
+    }
+
+
+    });
+  });
+ });
+  </script>
+
+
+</html>
